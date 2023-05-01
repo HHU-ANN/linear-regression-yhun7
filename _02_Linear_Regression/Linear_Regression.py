@@ -8,7 +8,7 @@ except ImportError as e:
     import numpy as np
 
 
-def ridge(data, alpha=0.0005):
+def ridge(data, alpha=0.0418):
     x, y = read_data()
     n_features = x.shape[1]
     a = np.eye(n_features)
@@ -16,14 +16,14 @@ def ridge(data, alpha=0.0005):
     return data @ weight
 
 
-def lasso(data, alpha=0.01, lr=0.01, step=10000):
+def lasso(data, alpha=0.0001, lr=0.01, max_iter=100000):
     x, y = read_data()
     n_sample, n_features = x.shape
     weight = np.zeros((n_features, 1))
-    for i in range(step):
+    for i in range(max_iter):
         y_pred = x @ weight
         error = y - y_pred
-        gradient = -2 * (x.T @ error) + alpha * np.sign(np.squeeze(weight))
+        gradient = -2 * (x.T @ error) + alpha * np.sign(np.squeeze(np.tile(weight, (1, n_sample))))
         weight -= lr * gradient
     return data @ weight
 
