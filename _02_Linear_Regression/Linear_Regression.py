@@ -8,7 +8,7 @@ except ImportError as e:
     import numpy as np
 
 
-def ridge(data, alpha=0.15):
+def ridge(data, alpha=1e-12):
     x, y = read_data()
     n_features = x.shape[1]
     a = np.eye(n_features)
