@@ -15,7 +15,6 @@ def ridge(data, alpha=0.0518):
     weight = np.linalg.inv(x.T @ x + alpha * a) @ x.T @ y
     return data @ weight
 
-'''
 def lasso(data, alpha=0.0001, lr=1e-12, max_iter=100000):
     x, y = read_data()
     n_sample, n_features = x.shape
@@ -26,7 +25,7 @@ def lasso(data, alpha=0.0001, lr=1e-12, max_iter=100000):
         gradient = -2 * (x.T @ error) + alpha * np.sign(np.tile(weight, (1, n_sample)))
         weight -= lr * gradient.mean(axis=1, keepdims=True)
     return data @ weight
-'''
+
 
 def read_data(path='./data/exp02/'):
     x = np.load(path + 'X_train.npy')
