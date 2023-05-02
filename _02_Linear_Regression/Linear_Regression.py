@@ -8,14 +8,14 @@ except ImportError as e:
     import numpy as np
 
 
-def ridge(data, alpha=0.1):
+def ridge(data, alpha=0.1367432):
     x, y = read_data()
     n_features = x.shape[1]
     a = np.eye(n_features)
     weight = np.linalg.inv(x.T @ x + alpha * a) @ x.T @ y
     return data @ weight
 
-def lasso(data, alpha=0.01, lr=1e-12, max_iter=100000):
+def lasso(data, alpha=0.01, lr=1e-12, max_iter=1000):
     x, y = read_data()
     n_sample, n_features = x.shape
     weight = np.zeros((n_features, 1))
