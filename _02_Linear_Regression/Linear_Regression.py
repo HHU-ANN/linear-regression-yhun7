@@ -23,8 +23,8 @@ def lasso(data, alpha=0.0001, lr=0.01, max_iter=100000):
     for i in range(max_iter):
         y_pred = x @ weight
         error = y - y_pred
-        gradient = -2 * (x.T @ error) + alpha * np.sign(np.squeeze(np.tile(weight, (1, n_sample))))
-        weight -= lr * gradient
+        gradient = -2 * (x.T @ error) + alpha * np.sign(np.tile(weight, (1, n_sample)))
+        weight -= lr * gradient.mean(axis=1, keepdims=True)
     return data @ weight
 
 
