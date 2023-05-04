@@ -1,12 +1,16 @@
 # 最终在main函数中传入一个维度为6的numpy数组，输出预测值
 import os
-from sklearn.metrics import r2_score
 try:
     import numpy as np
 except ImportError as e:
     os.system("sudo pip3 install numpy")
     import numpy as np
 
+def r2_score(y_true, y_pred):
+    ss_res = np.sum((y_true - y_pred) ** 2)
+    ss_tot = np.sum((y_true - np.mean(y_true)) ** 2)
+    r2 = 1 - ss_res / ss_tot
+    return r2
 
 def ridge(data, alpha=0.1):
     x, y = read_data()
