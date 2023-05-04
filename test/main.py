@@ -1,28 +1,18 @@
-# 最终在main函数中传入一个维度为6的numpy数组，输出预测值
 import os
-from sklearn.metrics import r2_score
+
 try:
     import numpy as np
 except ImportError as e:
     os.system("sudo pip3 install numpy")
     import numpy as np
-
-
-def ridge(data, alpha=0.1):
+from sklearn.linear_model import Ridge
+ridge = Ridge()
+def ridge(data, alpha=1):
     x, y = read_data()
     n_features = x.shape[1]
     a = np.eye(n_features)
-    best_weight = np.zeros((n_features, 1))
-    best_score = float('-inf')
-    for i in range(100):
-        weight = np.linalg.inv(x.T @ x + alpha * a) @ x.T @ y
-        y_pred = x @ weight
-        score = r2_score(y, y_pred)
-        if score > best_score:
-            best_score = score
-            best_weight = weight
-        alpha *= 0.9  # decrease regularization strength for next iteration
-    return data @ best_weight
+    weight = np.dot(np.linalg.inv(np.dot(x.T, x) + alpha * a),  np.dot(x.T, y))
+    return data @ weight
 
 def lasso(data, alpha=0.1, lr=1e-12, max_iter=120000):
     x, y = read_data()
