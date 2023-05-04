@@ -15,12 +15,12 @@ def ridge(data, alpha=0.1):
     weight = np.dot(np.linalg.inv(np.dot(x.T, x) + alpha * a),  np.dot(x.T, y))
     return data @ weight
 
-def lasso(data, alpha=0.1, lr=1e-12, max_iter=120000, tol=1e-4):
+def lasso(data, alpha=0.1, lr=1e-12, max_iter=100000, tol=1e-4):
     x, y = read_data()
     n_sample, n_features = x.shape
     best_loss = float("inf")
     best_weight = np.zeros(n_features)
-    weight = np.zeros((n_features, 1))
+    weight = np.zeros(n_features)
     for i in range(max_iter):
         y_pred = x @ weight
         error = y - y_pred
