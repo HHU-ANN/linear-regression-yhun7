@@ -12,6 +12,7 @@ def add_polynomial_features(X, degree=2):
     for d in range(1, degree + 1):
         for j in range(n_feature):
             X_poly = np.concatenate((X_poly, np.power(X[:, j:j+1], d)), axis=1)
+    X_poly = X_poly[:, :n_feature]
     return X_poly
 
 def ridge(data, alpha=1, degree=2):
