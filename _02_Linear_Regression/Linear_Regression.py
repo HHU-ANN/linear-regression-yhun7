@@ -6,34 +6,32 @@ try:
 except ImportError as e:
     os.system("sudo pip3 install numpy")
     import numpy as np
+def add_polynomial_features(X, degree=2):
+    n_sample, n_feature = X.shape
+    X_poly = np.ones((n_sample, 1))
+    for d in range(1, degree + 1):
+        for j in range(n_feature):
+            X_poly = np.concatenate((X_poly, np.power(X[:, j:j+1], d)), axis=1)
+    return X_poly
 
-
-def ridge(data, alpha=0.1):
+def ridge(data, alpha=1, degree=2):
     x, y = read_data()
-    n_features = x.shape[1]
+    x_poly = add_polynomial_features(x, degree=degree)
+    n_features = x_poly.shape[1]
     a = np.eye(n_features)
-    weight = np.dot(np.linalg.inv(np.dot(x.T, x) + alpha * a),  np.dot(x.T, y))
+    weight = np.dot(np.linalg.inv(np.dot(x_poly.T, x) + alpha * a),  np.dot(x_poly.T, y))
     return data @ weight
 
-def lasso(data, alpha=0.1, lr=1e-12, max_iter=100000, tol=1e-4):
+def lasso(data, alpha=0.1, lr=1e-12, max_iter=150000):
     x, y = read_data()
     n_sample, n_features = x.shape
-    best_loss = float("inf")
-    best_weight = np.zeros(n_features)
-    weight = np.zeros(n_features)
+    weight = np.zeros((n_features, 1))
     for i in range(max_iter):
         y_pred = x @ weight
         error = y - y_pred
         gradient = -2 * (x.T @ error) + alpha * np.sign(weight)
         weight -= lr * gradient.mean(axis=1, keepdims=True)
-        loss = np.mean(np.square(error)) + alpha * np.sum(np.abs(weight))
-
-        if loss < best_loss:
-            best_loss = loss
-            best_weight = weight.copy()
-        if np.abs(loss - best_loss) < tol:
-            break
-    return data @ best_weight
+    return data @ weight
 
 
 def read_data(path='./data/exp02/'):
