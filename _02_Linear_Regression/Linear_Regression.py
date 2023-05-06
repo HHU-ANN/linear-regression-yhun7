@@ -14,7 +14,7 @@ def ridge(data, alpha=-0.1):
     weight = np.dot(np.linalg.inv(np.dot(x.T, x) + alpha * a),  np.dot(x.T, y))
     return data @ weight
 
-def lasso(data, alpha=3000, lr=1e-12, max_iter=150000):
+def lasso(data, alpha=2500, lr=1e-12, max_iter=100000):
     x, y = read_data()
     weight = data
     for i in range(max_iter):
