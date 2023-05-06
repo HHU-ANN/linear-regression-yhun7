@@ -8,10 +8,9 @@ except ImportError as e:
     import numpy as np
 
 
-def ridge(data, alpha=1):
+def ridge(data, alpha=-0.1):
     x, y = read_data()
-    n_features = x.shape[1]
-    a = np.eye(n_features)
+    a = np.eye(6)
     weight = np.dot(np.linalg.inv(np.dot(x.T, x) + alpha * a),  np.dot(x.T, y))
     return data @ weight
 
