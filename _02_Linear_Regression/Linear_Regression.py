@@ -14,9 +14,10 @@ def ridge(data, alpha=-0.1):
     weight = np.dot(np.linalg.inv(np.dot(x.T, x) + alpha * a),  np.dot(x.T, y))
     return data @ weight
 
-def lasso(data, alpha=2000, lr=1e-10, max_iter=100000):
+def lasso(data, alpha=2500, lr=1e-9, max_iter=100000):
     x, y = read_data()
     weight = data
+    y_pred = np.dot(weight, x.T)
     for i in range(max_iter):
         y_pred = np.dot(weight, x.T)
         error = y_pred - y
